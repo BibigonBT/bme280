@@ -4,9 +4,25 @@ import time
 from bokeh.plotting import figure
 from bokeh.io import vplot
 from bokeh.embed import components
-from data import SQL
+import sqlite3
 sensor = BME280(mode=BME280_OSAMPLE_8)
-sql=SQL()
+
+def sql_request(self,command):
+                self.connection=sqlite3.connect('base.sqlite')
+                self.curs = self.connection.cursor()
+                data=[]
+                try:
+                        for row in self.curs.execute(command):
+                                data.append(row)
+                except:
+                        data='None'
+                self.connection.commit()
+                self.connection.close()
+                return data
+
+
+
+
 
 #xaxis = DatetimeAxis(formatter=DatetimeTickFormatter(formats={"months": ["%B %Y"], "days": ["%B %Y"]}),**AXIS_FORMATS)
 
@@ -41,7 +57,7 @@ mmHg=(pascals/100)*0.7600616827
 
 
 y1=[]
-temp=sql.raw_request('SELECT sensor_data FROM stats WHERE sensor="temperature"')
+temp=sql_request('SELECT sensor_data FROM stats WHERE sensor="temperature"')
 for h in temp:
 	y1.append(h[0])
 x1=[x for x in range(0,len(y1))]
@@ -51,7 +67,7 @@ p1.circle(x1, y1,  fill_color="white", size=8, color='red')
 p1.yaxis.axis_label_text_color="#FF0000"
 
 y2=[]
-temp=sql.raw_request('SELECT sensor_data FROM stats WHERE sensor="humidity"')
+temp=sql_request('SELECT sensor_data FROM stats WHERE sensor="humidity"')
 for h in temp:
 	y2.append(h[0])
 x2=[x for x in range(0,len(y2))]
@@ -61,7 +77,7 @@ p2.circle(x2, y2, fill_color="white", size=8)
 p2.yaxis.axis_label_text_color="#0000FF"
 
 y3=[]
-temp=sql.raw_request('SELECT sensor_data FROM stats WHERE sensor="pressure"')
+temp=sql_request('SELECT sensor_data FROM stats WHERE sensor="pressure"')
 for h in temp:
 	y3.append(h[0])
 x3=[x for x in range(0,len(y2))]

@@ -11,7 +11,8 @@ class SQL():
 
 
         def raw_request(self,command):
-                self.connect()
+                self.connection=sqlite3.connect('base.sqlite')
+                self.curs = self.connection.cursor()
                 data=[]
                 try:
                         for row in self.curs.execute(command):
