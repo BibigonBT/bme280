@@ -7,7 +7,7 @@ from bokeh.embed import components
 import sqlite3
 sensor = BME280(mode=BME280_OSAMPLE_8)
 
-def sql_request(self,command):
+def sql_request(command):
                 self.connection=sqlite3.connect('base.sqlite')
                 self.curs = self.connection.cursor()
                 data=[]
