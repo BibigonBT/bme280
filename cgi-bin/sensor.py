@@ -16,8 +16,8 @@ def sql_request(command):
                                 data.append(row)
                 except:
                         data='None'
-                self.connection.commit()
-                self.connection.close()
+                connection.commit()
+                connection.close()
                 return data
 
 
