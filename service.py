@@ -62,9 +62,9 @@ sql=SQL()
 sensor = BME280(mode=BME280_OSAMPLE_8)
 
 #sql.fake_data()
-
-print sql.raw_request('Select time FROM stats WHERE  time LIKE "2015-11-26 10%"')
-sql.raw_request('DELETE FROM stats WHERE  time LIKE "2015-11-26 22%"')
+#print sql.raw_request('Select time FROM stats WHERE  time LIKE "2015-11-26 10%"')
+print sql.raw_request('Select time FROM stats')
+#sql.raw_request('DELETE FROM stats WHERE  time LIKE "2015-11-26 22%"')
 #sql.main_loop()
 
 
