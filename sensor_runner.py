@@ -5,7 +5,7 @@ import datetime
 from Adafruit_BME280 import *
 import random
 import requests
-server_ip='10.0.0.37'
+server_ip='10.0.0.2'
 server_port='4164'
 
 class SQL():
