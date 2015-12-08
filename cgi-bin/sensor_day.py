@@ -22,6 +22,7 @@ degrees = sensor.read_temperature()
 humidity = sensor.read_humidity()
 mmHg=((sensor.read_pressure()/100)*0.7600616827)-6.2
 
+
 #----------------------------------------------Temperature-------------------------------------------------------
 y_temp_today=[];y_temp_yesterday=[];x_temp_today=[];x_temp_yesterday=[]
 
