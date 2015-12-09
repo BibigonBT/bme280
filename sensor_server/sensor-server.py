@@ -5,6 +5,8 @@ import datetime
 from bokeh.plotting import figure
 from bokeh.io import vplot
 from bokeh.embed import components
+import requests
+import json
 
 PORT_NUMBER=4164
 HOST_NAME=''
@@ -41,9 +43,14 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
         p1 = figure(toolbar_location=None,tools="crosshair",y_axis_label='Temperature C',plot_width=1000,plot_height=240)
         p2 = figure(toolbar_location=None,tools="crosshair",y_axis_label='Humidity %',plot_width=1000,plot_height=240)
         p3 = figure(toolbar_location=None,tools="crosshair",x_axis_label='Time (Hours)',y_axis_label='Pressure mmHg',plot_width=1000,plot_height=240)
-        #degrees = sensor.read_temperature()
-        #humidity = sensor.read_humidity()
-        #mmHg=((sensor.read_pressure()/100)*0.7600616827)-6.2
+        sensors_data=json.loads(requests.get('10.0.0.19:4164/?action=get'))
+
+        self.tmp=''
+        degrees = sensors_data['degrees']
+        humidity = sensors_data['humidity']
+        mmHg=sensors_data['mmHg']
+        hectopascals=sensors_data['hectopascals']
+        self.tmp=str(degrees)+str(humidity)+str(mmHg)+str(hectopascals)
 
         #----------------------------------------------Temperature-------------------------------------------------------
         y_today=[];y_yesterday=[];x_today=[];x_yesterday=[]
@@ -127,6 +134,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(bytes(script,'utf-8'))
         self.wfile.write(b'</head>')
         self.wfile.write(b'<body>')
+        self.wfile.write(bytes(self.tmp,'utf-8'))
         self.wfile.write(bytes(body,'utf-8'))
         self.wfile.write(bytes(div,'utf-8'))
         self.wfile.write(b'</body></html>')
