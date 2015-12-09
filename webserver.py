@@ -39,7 +39,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(b'<head>')
         self.wfile.write(b'</head>')
         self.wfile.write(b'<body>')
-        self.wfile.write(bytes(body,'utf-8'))
+        self.wfile.write(body)
         self.wfile.write(b'</body></html>')
 
 if __name__ == '__main__':
