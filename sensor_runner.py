@@ -3,7 +3,6 @@ import os
 import sqlite3
 import datetime
 from Adafruit_BME280 import *
-import random
 import requests
 server_ip='10.0.0.2'
 server_port='4164'
@@ -45,17 +44,6 @@ class SQL():
 		self.connection.close()
 		return data
 
-	def fake_data(self):
-		dates_delta=4320 # 3 days
-		finish=datetime.datetime.today()
-		start=finish-datetime.timedelta(minutes=dates_delta)
-		delta=0
-		for i in range(0,144):
-			time=start+datetime.timedelta(minutes=delta)
-			self.raw_request('INSERT INTO stats VALUES ("Room" , "temperature", "' + str(random.randrange(0,35)) +'", "' + str(time) + '")')
-			self.raw_request('INSERT INTO stats VALUES ("Room" , "pressure", "'    + str(random.randrange(750,770))    +'", "' + str(time) + '")')
-			self.raw_request('INSERT INTO stats VALUES ("Room" , "humidity", "'    + str(random.randrange(30,80))    +'", "' + str(time) + '")')
-			delta=delta+30
 			
 	def main_loop(self):
 		while True:

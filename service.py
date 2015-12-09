@@ -2,8 +2,7 @@
 import os
 import sqlite3
 import datetime
-from Adafruit_BME280 import *
-import random
+
 
 class SQL():
         def __init__(self,debug=1):
@@ -43,28 +42,12 @@ class SQL():
                 self.connection.close()
                 return data
 
-	def fake_data(self):
-		dates_delta=4320 # 3 days
-		finish=datetime.datetime.today()
-		start=finish-datetime.timedelta(minutes=dates_delta)
-		delta=0
-		for i in range(0,144):
-			
-			time=start+datetime.timedelta(minutes=delta)
-			self.raw_request('INSERT INTO stats VALUES ("Room" , "temperature", "' + str(random.randrange(0,35)) +'", "' + str(time) + '")')
-                	self.raw_request('INSERT INTO stats VALUES ("Room" , "pressure", "'    + str(random.randrange(750,770))    +'", "' + str(time) + '")')
-                	self.raw_request('INSERT INTO stats VALUES ("Room" , "humidity", "'    + str(random.randrange(30,80))    +'", "' + str(time) + '")')
-			delta=delta+30
+
 			
 	
+if __name__=='__main__':
+        sql=SQL()
+        sensor = BME280(mode=BME280_OSAMPLE_8)
 
-sql=SQL()
-sensor = BME280(mode=BME280_OSAMPLE_8)
-
-#sql.fake_data()
-#print sql.raw_request('Select time FROM stats WHERE  time LIKE "2015-11-26 10%"')
-print sql.raw_request('Select time FROM stats')
-#sql.raw_request('DELETE FROM stats WHERE  time LIKE "2015-11-26 22%"')
-#sql.main_loop()
 
 
