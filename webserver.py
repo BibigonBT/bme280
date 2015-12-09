@@ -16,8 +16,9 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             query_components = dict(qc.split("=") for qc in query.split("&"))
             if 'action' in query_components.keys() and query_components['action']:
                 if query_components['action']=='get':
-                    self.render(json.dumps(self.get_sensor_data()))  #get_sensor_data
-
+                    tmp=json.dumps(self.get_sensor_data())  #get_sensor_data
+                    print (tmp)
+                    self.render(tmp)
                 self.render('Unknown action<br>')
             else:
                 self.render('Unknown request<br>')
