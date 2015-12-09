@@ -2,6 +2,7 @@ import http.server
 from urllib.parse import urlparse
 from service import SQL
 from Adafruit_BME280 import *
+import json
 
 PORT_NUMBER=4164
 HOST_NAME=''
@@ -15,7 +16,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             query_components = dict(qc.split("=") for qc in query.split("&"))
             if 'action' in query_components.keys() and query_components['action']:
                 if query_components['action']=='get':
-                    self.render(self.get_sensor_data() )  #get_sensor_data
+                    self.render(json.dump(self.get_sensor_data()))  #get_sensor_data
 
                 self.render('Unknown action<br>')
             else:
