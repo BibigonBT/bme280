@@ -16,14 +16,13 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
             query_components = dict(qc.split("=") for qc in query.split("&"))
             if 'action' in query_components.keys() and query_components['action']:
                 if query_components['action']=='get':
-                    tmp=json.dumps(self.get_sensor_data())  #get_sensor_data
-                    print (tmp)
-                    self.render(tmp)
-                self.render('Unknown action<br>')
+                    self.render(json.dumps(self.get_sensor_data()) ) #get_sensor_data
+
+
             else:
-                self.render('Unknown request<br>')
+                pass
         else:
-            self.render('Clean index page<br>')
+            pass
 
     def get_sensor_data(self):
         sensor_data={}
@@ -37,12 +36,9 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
     def render(self, body=''):
         self.send_response(200);self.send_header("Content-type", "text/html");self.end_headers()
-        self.wfile.write(b'<html>')
-        self.wfile.write(b'<head>')
-        self.wfile.write(b'</head>')
-        self.wfile.write(b'<body>')
+
         self.wfile.write(body.encode('utf-8'))
-        self.wfile.write(b'</body></html>')
+       
 
 if __name__ == '__main__':
         server_class = http.server.HTTPServer
