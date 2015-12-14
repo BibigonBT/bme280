@@ -48,6 +48,7 @@ class SQL():
 	def main_loop(self):
 		while True:
 			if datetime.datetime.now().minute==00 or datetime.datetime.now().minute==30: #check sensors every 30 minutes
+			
 				degrees = sensor.read_temperature()
 				pascals = sensor.read_pressure()
 				hectopascals = pascals / 100
@@ -57,6 +58,7 @@ class SQL():
 				self.send_to_server('Room','temperature',	degrees,	datetime.datetime.now())
 				self.send_to_server('Room','pressure',		mmHg,		datetime.datetime.now())
 				self.send_to_server('Room','humidity',		humidity,	datetime.datetime.now())
+				
 				time.sleep(1500)
 			time.sleep(10)
 
@@ -73,8 +75,12 @@ class SQL():
 	def send_to_server(self,location,sensor,sensor_value,sensor_time):
 		try:
 			m=requests.get('http://'+self.server_ip+':'+self.server_port+'/?action=add&location='+location+'&sensor='+sensor+'&sensor_value='+str(sensor_value)+'&sensor_time='+str(sensor_time))
+		
 		except:
+			print('except')
 			sql.add_data(location,sensor,sensor_value,sensor_time)
+		else:
+			print ('request')
 		
 
 
